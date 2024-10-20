@@ -1,3 +1,6 @@
+## szablon projektu
+[git.pg.lol](https://git.pg.edu.pl/p966564/iis-template)
+
 https://www.geeksforgeeks.org/zero-shot-text-classification-using-huggingface-model/
 
 ```sh
@@ -9,7 +12,7 @@ launch localhost in your browser or click the address in the terminal output
 
 to test the interface, insert text:
 ```plaintext
-HuggingFace Transformers is a great tool for NLP tasks."
+"HuggingFace Transformers is a great tool for NLP tasks."
 ```
 and labels
 ```plaintext
