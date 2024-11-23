@@ -1,15 +1,22 @@
-from enum import Enum
 from datetime import datetime
-from typing import Optional
+from dataclasses import dataclass
+from enum import Enum
+
 
 class TaskStatus(str, Enum):
-    PENDING = "pending"
-    IN_PROGRESS = "in_progress"
-    COMPLETED = "completed"
+    PENDING = 'pending'
+    IN_PROGRESS = 'in_progress'
+    COMPLETED = 'completed'
 
+#TODO Change ENUM class to class with real result from model
+class TaskResult(str, Enum):
+    SUCCEED = 'succeed'
+    FAILED = 'failed'
+
+@dataclass
 class TaskEntity:
-    id: Optional[str] = None
-    start_time: Optional[datetime] = None
-    end_time: Optional[datetime] = None
-    status: TaskStatus
-    
+    id: str | None
+    start_time: datetime
+    end_time: datetime | None = None
+    status: TaskStatus | None = None
+    result: TaskResult | None = None
