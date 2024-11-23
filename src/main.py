@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 
-from routers import classifier #TODO kropka jakby co
-from routers import task # TODO: .
+from .routers import (
+    classifier,  # TODO kropka jakby co
+    task,
+)
 
 app = FastAPI(
     title='renameme',

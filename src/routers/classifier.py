@@ -1,6 +1,7 @@
+import uuid
+
 from fastapi import APIRouter
 from pydantic import BaseModel
-import uuid
 
 router = APIRouter(
     prefix='/classifier',
@@ -8,22 +9,24 @@ router = APIRouter(
     responses={404: {'description': 'Not found'}},
 )
 
+
 class ZeroShotRequest(BaseModel):
-    """
-    
-    """
+    """ """
+
     sentences: list[str]
     categories: list[str]
 
+
 class FewShotRequest(BaseModel):
-    """
-    
-    """
+    """ """
+
     sample_sentences: list[str]
     sentences: list[str]
     categories: list[str]
 
-#TODO zrobić docstring
+
+# TODO zrobić docstring
+
 
 @router.get('/zero_shot/{framework}', summary='Zero-shot', description='Returns a task id')
 def zero_shot(framework: str, request: ZeroShotRequest):
@@ -34,12 +37,12 @@ def zero_shot(framework: str, request: ZeroShotRequest):
 
     Useful for testing the API status.
     """
-
     # TODO: Logika która wybiera serwis na podstawie parametru framework
     # generuje id zadania, wrzuca zadanie do mongo i uruchamia zadanie
-    task_id = uuid.uuid4() #temp
+    task_id = uuid.uuid4()  # temp
 
     return {'taskId': task_id}
+
 
 @router.get('/few_shot/{framework}', summary='Few-shot', description='Returns a task id')
 def few_shot(framework: str, request: FewShotRequest):
@@ -51,8 +54,8 @@ def few_shot(framework: str, request: FewShotRequest):
     """
     # TODO: Logika która wybiera serwis na podstawie parametru framework
     # generuje id zadania, wrzuca zadanie do mongo i uruchamia zadanie
-    task_id = uuid.uuid4() #temp
-    
+    task_id = uuid.uuid4()  # temp
+
     return {'taskId': task_id}
 
 

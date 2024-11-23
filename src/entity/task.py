@@ -1,5 +1,5 @@
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
 
 
@@ -8,10 +8,12 @@ class TaskStatus(str, Enum):
     IN_PROGRESS = 'in_progress'
     COMPLETED = 'completed'
 
-#TODO Change ENUM class to class with real result from model
+
+# TODO Change ENUM class to class with real result from model
 class TaskResult(str, Enum):
     SUCCEED = 'succeed'
     FAILED = 'failed'
+
 
 @dataclass
 class TaskEntity:
