@@ -1,8 +1,9 @@
 from fastapi import BackgroundTasks
-from service.task import *
+
+from ..service.task import TaskService
 
 
-def _zero_shot_classification(path_model, user_option, id, task_service):
+def _zero_shot_classification(path_model, user_option, id, task_service: TaskService):
     task_service.start_task(id)
 
     # TODO here add logic for stormtrooper

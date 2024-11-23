@@ -1,3 +1,14 @@
+## Uruchomienie api:
+URUCHOMIENIE API NA DOCKER Z MONGO:
+aktywujemy venv z zainstalowanymi bibliotekami i wpisujemy to:
+docker network create my_network
+docker run --name my_mongo --network my_network -p 27017:27017 -d mongo:latest
+.\build.ps1 (dla windows)
+docker run --rm --network my_network -p 8080:8080 renameme:latest
+
+za pierwszym razem build może trwać długo a potem już szybko można przebudować zmiany
+
+
 # Intelligent Text Processing Service - Project Template
 
 ## Project Setup
