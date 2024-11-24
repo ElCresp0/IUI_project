@@ -1,7 +1,7 @@
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from ..entity.task import TaskEntity
+from ...entity.task import TaskEntity
 
 
 class TaskRepository:

@@ -36,5 +36,3 @@ ENV PATH="$PATH:/home/python/.local/bin"
 
 # expose port
 EXPOSE 8080
-
-CMD ["fastapi", "run", "src/main.py", "--port", "8080"]

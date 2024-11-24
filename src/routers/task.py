@@ -36,41 +36,24 @@ async def result(task_id: str):
 #######################
 # ENDPOINTS FOR TESTING#
 #######################
-@router.post('/create', summary='Create task', description='Creates a new task')
+@router.post('/test_create', summary='Create task', description='Creates a new task')
 async def create_task():
     """Endpoint to create a new task."""
     try:
-        task_id = await task_service.create_task()
+        task_type=2
+        task_id = await task_service.create_task(task_type)
         return {'taskId': task_id, 'message': 'Task created successfully'}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.delete('/delete/{task_id}', summary='Delete task', description='Deletes a task')
-async def delete_task(task_id: str):
-    """Endpoint to delete a task."""
+    
+@router.get('/test_get/{task_id}', summary='Get task', description='Get task')
+async def get_task(task_id: str):
+    """Get task."""
     try:
-        await task_service.delete_task(task_id)
-        return {'taskId': task_id, 'message': 'Task deleted successfully'}
+        task = await task_service.get_task(task_id)
+        return task
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@router.put('/start/{task_id}', summary='Start task', description='Starts a task')
-async def start_task(task_id: str):
-    """Endpoint to start a task."""
-    try:
-        await task_service.start_task(task_id)
-        return {'taskId': task_id, 'message': 'Task started successfully'}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
 
-
-@router.put('/finish/{task_id}', summary='Finish task', description='Finishes a task')
-async def finish_task(task_id: str, result: TaskResult):
-    """Endpoint to finish a task and set its result."""
-    try:
-        await task_service.finish_task(task_id, result)
-        return {'taskId': task_id, 'message': 'Task finished successfully'}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))

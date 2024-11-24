@@ -1,19 +1,12 @@
 ## Uruchomienie api:
-* URUCHOMIENIE API NA DOCKER Z MONGO:
+* Uruchamianie API na docker Z Redis i Celery:
 * aktywujemy venv z zainstalowanymi bibliotekami i wpisujemy to:
 ```bash
-docker network create my_network
+docker-compose up --build
 ```
-```bash
-docker run --name my_mongo --network my_network -p 27017:27017 -d mongo:latest
-```
-```bash
-.\build.ps1
-```
-```bash
-docker run --rm --network my_network -p 8080:8080 renameme:latest
-```
-* za pierwszym razem build może trwać długo a potem już szybko można przebudować zmiany
+
+* Api dostępne tutaj: http://localhost:8080/docs
+* Podgląd zadań Celery tutaj: http://localhost:5556/
 
 
 # Intelligent Text Processing Service - Project Template
