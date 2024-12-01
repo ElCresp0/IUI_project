@@ -1,6 +1,12 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+from typing import Callable
+
+
+class TaskMode(str, Enum):
+    ZERO_SHOT = 0
+    FEW_SHOT = 1
 
 
 class TaskStatus(str, Enum):
@@ -17,8 +23,16 @@ class TaskResult(str, Enum):
 
 @dataclass
 class TaskEntity:
+    """
+    represents a text classification task
+    mode, callable and args fields are necessary
+    to create a celery coroutine to delegate the task
+    """
     id: str | None
     start_time: datetime
     end_time: datetime | None = None
+    mode: TaskMode | None = None
+    callable: Callable | None = None # framework dependent callable
+    args: dict = {}                  # framework and mode dependent args
     status: TaskStatus | None = None
     result: TaskResult | None = None

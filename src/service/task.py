@@ -2,9 +2,9 @@ from datetime import datetime
 
 from celery.result import AsyncResult
 
-from ..entity.task import TaskResult, TaskStatus
+from ..entity.task import TaskResult, TaskStatus, TaskEntity
 from ..repository.redis.task import TaskRepository
-from ..worker import create_task
+from ..worker import create_task as worker_create_task
 
 
 class TaskService:
@@ -47,12 +47,16 @@ class TaskService:
         task = self.task_repository.get_task(task_id)
         return task['result']
 
-    #TODO zmienić aby przekazywać coś innego niż int
-    async def create_task(self, task_type: int) -> str:
-        """Creates a new task.
+    async def create_task(self, taskEntity: TaskEntity) -> str:
+        """
+        Creates and queues a new task, writes the TaskEntity to redis.
 
         Returns:
             str: The unique identifier of the newly created task.
         """
-        new_task = create_task.delay(task_type)
-        return new_task.id
+        r = worker_create_task.delay()
+        task_id = r.task_id
+        taskEntity.id = task_id
+        self.task_repository.create_task(taskEntity)
+        
+        return task_id
