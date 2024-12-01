@@ -1,29 +1,29 @@
 from fastapi import BackgroundTasks
 
+from stormtrooper.set_fit import SetFitClassifier
+from stormtrooper import ZeroShotClassifier
+
 from ..service.task import TaskService
+from ..entity.task import TaskMode, TaskStatus, TaskEntity
+from .framework import Framework
+from .model import ModelService
 
-
-def _zero_shot_classification(path_model, user_option, id, task_service: TaskService):
-    pass
-    # TODO here add logic for stormtrooper
-
-    # TODO here we can add some additional notification
-    # https://fastapi.tiangolo.com/tutorial/background-tasks/
-
-
-def _few_shot_classification():
-    pass
-
-
-class StormtrooperService:
+class StormtrooperService(Framework):
     def __init__(self):
-        self.task_service = TaskService()
+        model_path = ModelService().get_sbert_base_cased_pl()
+        self.few_shot_model = SetFitClassifier(model_path)
 
-    def add_zero_shot(self, path_model, user_option, background_tasks: BackgroundTasks):
-        #TODO jakoś przekazać zadanie do workera - może przekazać funkcje?
-        task_type = 1
-        id = self.task_service.create_task(task_type)
+    def add_few_shot(self, args):
+        """
+        tworzy i przekazuje do workera-selera TaskEntity
+        """
+        taskEntity = TaskEntity(
+            status = TaskStatus.PENDING,
+            mode = TaskMode.ZERO_SHOT,
+            callable = self._few_shot_classification,
+            args = args
+        )
+        task_id = self.task_service.create_task(taskEntity)
 
-        #background_tasks.add_task(_zero_shot_classification, path_model, user_option, id, self.task_service)
+        return task_id.id
 
-        return id

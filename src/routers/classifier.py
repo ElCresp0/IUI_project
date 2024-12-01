@@ -1,7 +1,9 @@
 import uuid
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+
+from ..service.stormtrooper import StormtrooperService
 
 router = APIRouter(
     prefix='/classifier',
@@ -26,6 +28,9 @@ class FewShotRequest(BaseModel):
 
 
 # TODO zrobić docstring
+SERVICES = {
+    "stormtrooper": StormtrooperService()
+}
 
 
 @router.get('/zero_shot/{framework}', summary='Zero-shot', description='Returns a task id')
@@ -48,15 +53,34 @@ def zero_shot(framework: str, request: ZeroShotRequest):
 def few_shot(framework: str, request: FewShotRequest):
     """This endpoint returns a JSON object with a task id.
 
+    TODO: use request from body
     Example response:
     - Hello: 12345
 
     """
-    # TODO: Logika która wybiera serwis na podstawie parametru framework
-    # generuje id zadania, wrzuca zadanie do mongo i uruchamia zadanie
-    task_id = uuid.uuid4()  # temp
+    service = SERVICES.get(framework)
+    if not service:
+        raise HTTPException(404, "framework not found")
+    args = {
+        "examples": {
+            "text": [
+                "ugotować ryż, dodać bazylię i oregano, na koniec posypać serem",
+                "wymieszać sos a następnie polać nim potrawę",
+                "obrać warzywa, pokroić i smażyć na oliwie z oliwek przez kilka minut",
+                "Rafał Rafałczyk zdobył niecałe 20 procent głosów w swoim okręgu wyborczym",
+                "partia Polska-Polska wywiązuje się ze swojej pierwszej obietnicy wyborczej",
+                "Prezydent Szczecina przejechał gęś. Nie będzie mógł kontynuować swojej kadencji.",
+                "Reakcja chemiczna - każdy proces, w wyniku którego pierwotna substancja zwana substratem przemienia się w inną substancję zwaną produktem.",
+                "Energia potencjalna - energia, jaką ma ciało w zależności od położenia ciała w przestrzeni",
+                "Kryptoanaliza (analiza kryptograficzna) - analiza systemu kryptograficznego w celu uzyskania informacji wrażliwej."
+            ],
+            "label": ["gotowanie", "gotowanie", "gotowanie", "polityka", "polityka", "polityka", "nauka", "nauka", "nauka"]
+        },
+        "text": "ugotować ryż, dodać bazylię i oregano, na koniec posypać serem"
+    }
+    task_id = service.add_few_shot(args=args)
 
-    return {'taskId': task_id}
+    return {'taskId': '3'}
 
 
 # @router.put(
