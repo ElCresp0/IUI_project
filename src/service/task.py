@@ -1,4 +1,7 @@
+import json
+import logging
 from datetime import datetime
+from typing import Callable
 
 from celery.result import AsyncResult
 
@@ -7,7 +10,12 @@ from ..repository.redis.task import TaskRepository
 from ..worker import create_task as worker_create_task
 
 
+DELAY = 60
+
 class TaskService:
+    # static field to be accessed from any instance
+    # frameworks = {}
+
     def __init__(self):
         self.task_repository = TaskRepository()
 
@@ -54,9 +62,10 @@ class TaskService:
         Returns:
             str: The unique identifier of the newly created task.
         """
-        r = worker_create_task.delay()
+        r = worker_create_task.delay(taskEntity.__dict__)
         task_id = r.task_id
         taskEntity.id = task_id
         self.task_repository.create_task(taskEntity)
         
+        logging.info(f"{__file__} :: task id: {task_id}")
         return task_id

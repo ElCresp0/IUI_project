@@ -1,9 +1,11 @@
+import logging
 import uuid
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from ..service.stormtrooper import StormtrooperService
+from ..entity.task import *
+from ..service.task import TaskService
 
 router = APIRouter(
     prefix='/classifier',
@@ -27,10 +29,7 @@ class FewShotRequest(BaseModel):
     categories: list[str]
 
 
-# TODO zrobić docstring
-SERVICES = {
-    "stormtrooper": StormtrooperService()
-}
+taskService = TaskService()
 
 
 @router.get('/zero_shot/{framework}', summary='Zero-shot', description='Returns a task id')
@@ -50,7 +49,7 @@ def zero_shot(framework: str, request: ZeroShotRequest):
 
 
 @router.get('/few_shot/{framework}', summary='Few-shot', description='Returns a task id')
-def few_shot(framework: str, request: FewShotRequest):
+async def few_shot(framework: str, request: FewShotRequest):
     """This endpoint returns a JSON object with a task id.
 
     TODO: use request from body
@@ -58,9 +57,6 @@ def few_shot(framework: str, request: FewShotRequest):
     - Hello: 12345
 
     """
-    service = SERVICES.get(framework)
-    if not service:
-        raise HTTPException(404, "framework not found")
     args = {
         "examples": {
             "text": [
@@ -78,9 +74,20 @@ def few_shot(framework: str, request: FewShotRequest):
         },
         "text": "ugotować ryż, dodać bazylię i oregano, na koniec posypać serem"
     }
-    task_id = service.add_few_shot(args=args)
-
-    return {'taskId': '3'}
+    task = TaskEntity(
+        id = None,
+        start_time = None,
+        end_time = None,
+        mode = TaskMode.FEW_SHOT,
+        framework = Framework.STORMTROOPER,
+        args = args,
+        status = TaskStatus.PENDING,
+        result = None
+    )
+    task_id = await taskService.create_task(task)
+    # TODO: global logging config and formatting 
+    logging.info(f"{__name__} :: task_id: {task_id}")
+    return {'taskId': str(task_id)}
 
 
 # @router.put(
