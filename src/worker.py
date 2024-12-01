@@ -39,6 +39,7 @@ def create_task(taskEntityDict: dict):
     match taskEntity.framework:
         case Framework.STORMTROOPER:
             result = stormtrooperService._few_shot_classification(taskEntity.args)
+            # TODO: TASK IS NOT UPDATED AND DOESN'T SEEM TO CONCLUDE
             # TODO: save the actual result in TaskEntity
             taskEntity.result = TaskResult.SUCCEED
         case _:
