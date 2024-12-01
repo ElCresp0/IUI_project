@@ -26,6 +26,17 @@ USER python
 COPY requirements.txt .
 RUN  pip install --no-cache-dir --upgrade -r requirements.txt
 
+# BELOW IS FOR DEVELOPMENT PURPOSES
+# Install frameworks separately
+COPY requirements-frameworks.txt .
+RUN  pip install --no-cache-dir --upgrade -r requirements-frameworks.txt
+
+# Cache frameworks for quicker development
+COPY src/service/model.py tmp/model.py
+COPY src/service/cacheFrameworks.py tmp/cacheFrameworks.py
+RUN python3 tmp/cacheFrameworks.py
+# ABOVE HAS BEEN FOR DEVELOPMENT PURPOSES
+
 # Copy application code
 COPY src src
 
