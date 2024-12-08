@@ -32,7 +32,7 @@ class FewShotRequest(BaseModel):
 taskService = TaskService()
 
 
-@router.get('/zero_shot/{framework}', summary='Zero-shot', description='Returns a task id')
+@router.post('/zero_shot/{framework}', summary='Zero-shot', description='Returns a task id')
 def zero_shot(framework: str, request: ZeroShotRequest):
     """This endpoint returns a JSON object with a greeting message.
 
@@ -48,7 +48,7 @@ def zero_shot(framework: str, request: ZeroShotRequest):
     return {'taskId': task_id}
 
 
-@router.get('/few_shot/{framework}', summary='Few-shot', description='Returns a task id')
+@router.post('/few_shot/{framework}', summary='Few-shot', description='Returns a task id')
 async def few_shot(framework: str, request: FewShotRequest):
     """This endpoint returns a JSON object with a task id.
 
