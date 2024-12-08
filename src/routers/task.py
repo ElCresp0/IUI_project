@@ -17,8 +17,8 @@ task_service = TaskService()
 async def status(task_id: str):
     """Endpoint to fetch the status of a task."""
     try:
-        status = await task_service.get_task_status(task_id)
-        return {'taskId': task_id, 'status': status}
+        task = await task_service.get_task(task_id)
+        return task["status"]
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
@@ -27,8 +27,8 @@ async def status(task_id: str):
 async def result(task_id: str):
     """Endpoint to fetch the result of a task."""
     try:
-        result = await task_service.get_task_result(task_id)
-        return {'taskId': task_id, 'result': result}
+        task = await task_service.get_task(task_id)
+        return task["result"]
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 

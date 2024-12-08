@@ -49,6 +49,7 @@ class Framework:
             "text": examples["text"],
             "label": examples["label"]
         })
+        # TODO: make it work ;)
         # self.few_shot_model.fit(training_data["text"], training_data["label"])
 
         df = pd.DataFrame([text])

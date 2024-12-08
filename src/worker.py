@@ -34,7 +34,6 @@ def create_task(taskEntityDict: dict):
     # TODO: print -> logging
     logger.info('start task...')
 
-
     # execute the task
     match taskEntity.framework:
         case Framework.STORMTROOPER:
@@ -46,7 +45,7 @@ def create_task(taskEntityDict: dict):
         case _:
             # other frameworks: not implemented
             logger.info(f"{taskEntity.framework} != {Framework.STORMTROOPER}")
-            taskEntity.result = TaskResult.FAILED
+            result = taskEntity.result = TaskResult.FAILED
 
     time.sleep(30)
     logger.info('end task')

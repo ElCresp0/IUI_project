@@ -32,12 +32,11 @@ class TaskResult(str, Enum):
 @dataclass
 class TaskEntity:
     """
+    THIS MIGHT BE A BIT OUTDATED
+
     represents a text classification task
     mode, callable and args fields are necessary
     to create a celery coroutine to delegate the task
-
-    use datetime.strftime(DATEFORMAT) to serialize and strptime to deserialize start_date and end_date
-    use json.dumps to serialize args dict and loads to deserialize
     """
     id: str | None
     start_time: str
