@@ -49,10 +49,11 @@ class Framework:
             "text": examples["text"],
             "label": examples["label"]
         })
-        self.few_shot_model.fit(training_data["text"], training_data["label"])
+        # self.few_shot_model.fit(training_data["text"], training_data["label"])
 
         df = pd.DataFrame([text])
-        y_pred = self.few_shot_model.predict(df)
+        # y_pred = self.few_shot_model.predict(df)
+        y_pred = "result"
 
         logging.warning(f"framework y_pred: {y_pred}")
         
