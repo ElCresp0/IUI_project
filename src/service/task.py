@@ -64,8 +64,6 @@ class TaskService:
         """
         r = worker_create_task.delay(taskEntity.__dict__)
         task_id = r.task_id
-        taskEntity.id = task_id
-        self.task_repository.create_task(taskEntity)
         
         logging.info(f"{__file__} :: task id: {task_id}")
         return task_id
