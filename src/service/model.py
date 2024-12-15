@@ -9,6 +9,12 @@ class ModelService:
         self.path_bart_large_mnli: str = 'facebook/bart-large-mnli'
         self.path_gpt4_x_alpaca: str = 'chavinlo/gpt4-x-alpaca'
         self.path_few_shot_fb_bart_large_mnli: str = 'tyzp-INC/few-shot-fb-bart-large-mnli'
+        self.path_polish_BART_base_OPI: str ="dkleczek/Polish_BART_base_OPI"
+
+    # zero-shot / few-shot
+    # PL
+    def get_path_polish_BART_base_OPI(self) -> str:
+        return self.path_polish_BART_base_OPI
 
     # zero-shot / few-shot
     # PL

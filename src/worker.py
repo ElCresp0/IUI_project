@@ -38,13 +38,21 @@ def create_task(taskEntityDict: dict):
     match taskEntity.framework:
         case Framework.STORMTROOPER:
             logger.info("framework: stormtrooper")
-            result = stormtrooperService._few_shot_classification(taskEntity.args)
-            taskEntity.result = TaskResult.SUCCEED #to chyba można usunac
+            if taskEntity.mode == TaskMode.FEW_SHOT:
+                logger.info("started few shot")
+                result = stormtrooperService.few_shot_classification(taskEntity.args)
+                taskEntity.result = TaskResult.SUCCEED #to chyba można usunac
+            elif taskEntity.mode == TaskMode.ZERO_SHOT:
+                logger.info("started zero shot")
+                result = stormtrooperService.zero_shot_classification(taskEntity.args)
+                taskEntity.result = TaskResult.SUCCEED #to chyba można usunac
+            else:
+                logger.info(f"{taskEntity.framework}: unknown mode")
+                result = taskEntity.result = TaskResult.FAILED
         case _:
             logger.info(f"{taskEntity.framework} != {Framework.STORMTROOPER}")
             result = taskEntity.result = TaskResult.FAILED
 
-    #time.sleep(30)
     logger.info('end task')
 
 

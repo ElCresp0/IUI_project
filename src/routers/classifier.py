@@ -33,7 +33,7 @@ taskService = TaskService()
 
 
 @router.post('/zero_shot/{framework}', summary='Zero-shot', description='Returns a task id')
-def zero_shot(framework: str, request: ZeroShotRequest):
+async def zero_shot(framework: str, request: ZeroShotRequest):
     """This endpoint returns a JSON object with a greeting message.
 
     Example response:
@@ -44,7 +44,25 @@ def zero_shot(framework: str, request: ZeroShotRequest):
     # TODO: Logika która wybiera serwis na podstawie parametru framework
     # generuje id zadania, wrzuca zadanie do mongo i uruchamia zadanie
     task_id = uuid.uuid4()  # temp
-
+    
+    args = { 
+        "label": ["gotowanie", "gotowanie", "gotowanie", "polityka", "polityka", "polityka", "nauka", "nauka", "nauka"],
+        "text": ["ugotować ryż, dodać bazylię i oregano, na koniec posypać serem"]
+    }
+    
+    task = TaskEntity(
+        id = None,
+        start_time = None,
+        end_time = None,
+        mode = TaskMode.ZERO_SHOT,
+        framework = Framework.STORMTROOPER,
+        args = args,
+        status = TaskStatus.PENDING,
+        result = None
+    )
+    task_id = await taskService.create_task(task)
+    # TODO: global logging config and formatting 
+    logging.info(f"{__name__} :: task_id: {task_id}")
     return {'taskId': task_id}
 
 

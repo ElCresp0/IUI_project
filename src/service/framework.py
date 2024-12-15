@@ -17,16 +17,38 @@ class Framework:
 
     def __init__(self):
         self.few_shot_model : Any
+        self.zero_shot_model : Any
 
-    def _zero_shot_classification(self, args: dict):
-        pass
-        # TODO here add logic for stormtrooper
+    def zero_shot_classification(self, args: dict):
+        """
+        performs zero shot text classification
+        should be called as a BackGround task
 
-        # TODO here we can add some additional notification
-        # https://fastapi.tiangolo.com/tutorial/background-tasks/
+        In:
+        - labels:   user defined labels for classification
+        - text:     text to be classified
+
+        Out:
+        - model predictions
+        """
+        
+        label: dict = args["label"]
+        text: list = args["text"]
+
+        self.zero_shot_model.fit(None, label)
+
+        df = pd.DataFrame({
+            "text": text
+        })
+        logging.warning("test data:\n%s", df)
+        y_pred = self.zero_shot_model.predict(df["text"])
+
+        logging.warning(f"framework y_pred: {y_pred}")
+            
+        return y_pred.tolist()
 
 
-    def _few_shot_classification(self, args: dict):
+    def few_shot_classification(self, args: dict):
         """
         performs few shot text classification
         should be called as a BackGround task
@@ -62,9 +84,3 @@ class Framework:
         logging.warning(f"framework y_pred: {y_pred}")
     
         return y_pred.tolist()
-
-    def add_zero_shot(self) -> TaskEntity:
-        pass
-
-    def add_few_shot(self, args) -> TaskEntity:
-        pass
