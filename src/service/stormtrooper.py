@@ -1,29 +1,15 @@
-from fastapi import BackgroundTasks
+import logging
 
-from ..service.task import TaskService
+from stormtrooper.set_fit import SetFitClassifier
+from stormtrooper import ZeroShotClassifier
 
+# from ..entity.task import TaskMode, TaskStatus, TaskEntity
+from .framework import Framework
+from .model import ModelService
 
-def _zero_shot_classification(path_model, user_option, id, task_service: TaskService):
-    pass
-    # TODO here add logic for stormtrooper
-
-    # TODO here we can add some additional notification
-    # https://fastapi.tiangolo.com/tutorial/background-tasks/
-
-
-def _few_shot_classification():
-    pass
-
-
-class StormtrooperService:
+class StormtrooperService(Framework):
     def __init__(self):
-        self.task_service = TaskService()
-
-    def add_zero_shot(self, path_model, user_option, background_tasks: BackgroundTasks):
-        #TODO jakoś przekazać zadanie do workera - może przekazać funkcje?
-        task_type = 1
-        id = self.task_service.create_task(task_type)
-
-        #background_tasks.add_task(_zero_shot_classification, path_model, user_option, id, self.task_service)
-
-        return id
+        super().__init__()
+        logging.info("loading the model")
+        self.model_path = ModelService().get_sbert_base_cased_pl()
+        self.few_shot_model = SetFitClassifier(self.model_path)
