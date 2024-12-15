@@ -72,7 +72,7 @@ async def few_shot(framework: str, request: FewShotRequest):
             ],
             "label": ["gotowanie", "gotowanie", "gotowanie", "polityka", "polityka", "polityka", "nauka", "nauka", "nauka"]
         },
-        "text": "ugotować ryż, dodać bazylię i oregano, na koniec posypać serem"
+        "text": ["ugotować ryż, dodać bazylię i oregano, na koniec posypać serem"]
     }
     task = TaskEntity(
         id = None,

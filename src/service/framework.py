@@ -3,6 +3,7 @@ from typing import Any
 
 import pandas as pd
 from ..entity.task import TaskEntity
+import numpy as np
 # from ..service.task import TaskService
 
 
@@ -43,23 +44,24 @@ class Framework:
         # if it differs in other frameworks, move it to subclasses
 
         examples: dict = args["examples"]
-        text: str = args["text"]
+        text: list = args["text"]
 
         training_data = pd.DataFrame({
             "text": examples["text"],
             "label": examples["label"]
         })
-        # TODO: make it work ;)
-        # self.few_shot_model.fit(training_data["text"], training_data["label"])
+        logging.warning("Training data:\n%s", training_data)
+        self.few_shot_model.fit(training_data["text"], training_data["label"])
 
-        df = pd.DataFrame([text])
-        # y_pred = self.few_shot_model.predict(df)
-        y_pred = "result"
+        df = pd.DataFrame({
+            "text": text
+        })
+        logging.warning("test data:\n%s", df)
+        y_pred = self.few_shot_model.predict(df["text"])
 
         logging.warning(f"framework y_pred: {y_pred}")
-        
-        # WRITE TASK RESULTS TO REDIS
-        return y_pred
+    
+        return y_pred.tolist()
 
     def add_zero_shot(self) -> TaskEntity:
         pass

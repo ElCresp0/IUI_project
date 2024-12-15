@@ -39,15 +39,12 @@ def create_task(taskEntityDict: dict):
         case Framework.STORMTROOPER:
             logger.info("framework: stormtrooper")
             result = stormtrooperService._few_shot_classification(taskEntity.args)
-            # TODO: TASK IS NOT UPDATED AND DOESN'T SEEM TO CONCLUDE
-            # TODO: save the actual result in TaskEntity
-            taskEntity.result = TaskResult.SUCCEED
+            taskEntity.result = TaskResult.SUCCEED #to chyba można usunac
         case _:
-            # other frameworks: not implemented
             logger.info(f"{taskEntity.framework} != {Framework.STORMTROOPER}")
             result = taskEntity.result = TaskResult.FAILED
 
-    time.sleep(30)
+    #time.sleep(30)
     logger.info('end task')
 
 
