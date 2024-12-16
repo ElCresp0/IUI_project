@@ -1,13 +1,13 @@
 import celery.app.log as log
 from datetime import datetime
 import os
-import time
 
 from celery import Celery, current_task
 
 from .entity.task import *
 from .repository.redis.task import TaskRepository
 from .service.stormtrooper import StormtrooperService
+from .service.model import ModelService
 
 
 celery = Celery(__name__)
@@ -18,7 +18,6 @@ logger = logging.get_default_logger()
 logger.setLevel(20) # INFO
 
 task_repository = TaskRepository()
-stormtrooperService = StormtrooperService()
 
 @celery.task(name='create_task')
 def create_task(taskEntityDict: dict):
@@ -31,8 +30,32 @@ def create_task(taskEntityDict: dict):
     """
 
     taskEntity = TaskEntity(**taskEntityDict)
+    path = str
     # TODO: print -> logging
     logger.info('start task...')
+
+    match taskEntity.language:
+        case Language.PL: 
+            if taskEntity.mode == TaskMode.FEW_SHOT:
+                path = ModelService().get_sbert_base_cased_pl()
+            elif taskEntity.mode == TaskMode.ZERO_SHOT:
+                path = ModelService().get_sbert_base_cased_pl()
+            else:
+                logger.info(f"{taskEntity.framework}: unknown mode")
+                result = taskEntity.result = TaskResult.FAILED
+        case Language.EN:
+            if taskEntity.mode == TaskMode.FEW_SHOT:
+                path = ModelService().get_few_shot_fb_bart_large_mnli()
+            elif taskEntity.mode == TaskMode.ZERO_SHOT:
+                path = ModelService().get_bart_large_mnli()
+            else:
+                logger.info(f"{taskEntity.framework}: unknown mode")
+                result = taskEntity.result = TaskResult.FAILED
+        case _:
+            logger.info(f"{taskEntity.language} is not {Language.PL} and not {Language.EN}")
+            result = taskEntity.result = TaskResult.FAILED
+
+    stormtrooperService = StormtrooperService(path)
 
     # execute the task
     match taskEntity.framework:
