@@ -2,7 +2,6 @@ import logging
 from typing import Any
 
 import pandas as pd
-from ..entity.task import TaskEntity
 import numpy as np
 # from ..service.task import TaskService
 
@@ -16,8 +15,7 @@ class Framework:
     """
 
     def __init__(self):
-        self.few_shot_model : Any
-        self.zero_shot_model : Any
+        self.model: Any
 
     def zero_shot_classification(self, args: dict):
         """
@@ -35,13 +33,13 @@ class Framework:
         label: dict = args["label"]
         text: list = args["text"]
 
-        self.zero_shot_model.fit(None, label)
+        self.model.fit(None, label)
 
         df = pd.DataFrame({
             "text": text
         })
         logging.warning("test data:\n%s", df)
-        y_pred = self.zero_shot_model.predict(df["text"])
+        y_pred = self.model.predict(df["text"])
 
         logging.warning(f"framework y_pred: {y_pred}")
             
@@ -73,13 +71,13 @@ class Framework:
             "label": examples["label"]
         })
         logging.warning("Training data:\n%s", training_data)
-        self.few_shot_model.fit(training_data["text"], training_data["label"])
+        self.model.fit(training_data["text"], training_data["label"])
 
         df = pd.DataFrame({
             "text": text
         })
         logging.warning("test data:\n%s", df)
-        y_pred = self.few_shot_model.predict(df["text"])
+        y_pred = self.model.predict(df["text"])
 
         logging.warning(f"framework y_pred: {y_pred}")
     
