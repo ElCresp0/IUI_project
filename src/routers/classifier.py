@@ -116,12 +116,12 @@ async def test_zero_shot(framework: str,  language: str, request: ZeroShotReques
     
     if language == Language.PL:
         args = {
-            "label": ["gotowanie", "gotowanie", "gotowanie", "polityka", "polityka", "polityka", "nauka", "nauka", "nauka"],
+            "label": ["gotowanie", "polityka", "nauka"],
             "text": ["ugotować ryż, dodać bazylię i oregano, na koniec posypać serem"]
         }
     elif language == Language.EN:
         args = {
-            "label": ["cooking", "cooking", "cooking", "politics", "politics", "politics", "science", "science", "science"],
+            "label": ["cooking","politics", "science"],
             "text": ["cook rice, add basil and oregano, and sprinkle with cheese at the end"]
         }
     else:
