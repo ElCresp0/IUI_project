@@ -10,6 +10,9 @@ class TaskMode(str, Enum):
     ZERO_SHOT = 0
     FEW_SHOT = 1
 
+class Language(str, Enum):
+    PL = 'pl'
+    EN = 'en'
 
 class Framework(str, Enum):
     STORMTROOPER = 'stormtrooper'
@@ -44,5 +47,6 @@ class TaskEntity:
     mode: TaskMode | None = None
     framework: Framework | None = None
     args: str | None = None # JSON serialized dict
+    language: Language | None = None
     status: TaskStatus | None = None
     result: TaskResult | None = None
