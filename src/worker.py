@@ -42,7 +42,8 @@ def create_task(taskEntityDict: dict):
     def monitor_library_progress():
         nonlocal stop_monitoring
         nonlocal task_id
-        while not stop_monitoring:
+        nonlocal taskEntity
+        while taskEntity.framework == Framework.STORMTROOPER and not stop_monitoring:
             active_bars = list(tqdm._instances)
             for bar in active_bars:
                 if bar.total:
