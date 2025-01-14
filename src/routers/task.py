@@ -18,7 +18,7 @@ async def status(task_id: str):
     """Endpoint to fetch the status of a task."""
     try:
         task = await task_service.get_task(task_id)
-        return task["status"]
+        return {'status':task["status"], 'progress':task["progress"]}
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
@@ -33,27 +33,13 @@ async def result(task_id: str):
         raise HTTPException(status_code=404, detail=str(e))
 
 
-#######################
-# ENDPOINTS FOR TESTING#
-#######################
-@router.post('/test_create', summary='Create task', description='Creates a new task')
-async def create_task():
-    """Endpoint to create a new task."""
-    try:
-        task_type=2
-        task_id = await task_service.create_task(task_type)
-        return {'taskId': task_id, 'message': 'Task created successfully'}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
-@router.get('/test_get/{task_id}', summary='Get task', description='Get task')
-async def get_task(task_id: str):
-    """Get task."""
+@router.get('/task/{task_id}', summary='Task result', description='Returns a task result')
+async def result(task_id: str):
+    """Endpoint to fetch the result of a task."""
     try:
         task = await task_service.get_task(task_id)
         return task
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
-
 
 

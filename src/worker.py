@@ -8,7 +8,9 @@ from .entity.task import *
 from .repository.redis.task import TaskRepository
 from .service.stormtrooper import StormtrooperService
 from .service.model import ModelService
-
+from tqdm import tqdm
+import time
+import threading
 
 celery = Celery(__name__)
 celery.conf.broker_url = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379')
@@ -31,9 +33,28 @@ def create_task(taskEntityDict: dict):
 
     taskEntity = TaskEntity(**taskEntityDict)
     path = str
-    # TODO: print -> logging
     logger.info('start task...')
-
+    logger.info(list(tqdm._instances))
+    task_id = current_task.request.id
+    task_repository.update_task_progress(task_id, "0%")
+    stop_monitoring = False
+    
+    def monitor_library_progress():
+        nonlocal stop_monitoring
+        nonlocal task_id
+        while not stop_monitoring:
+            active_bars = list(tqdm._instances)
+            for bar in active_bars:
+                if bar.total:
+                    progress_percent = (bar.n / bar.total) * 100
+                    task_repository.update_task_progress(task_id, f"{progress_percent:.2f}%")
+                else:
+                    task_repository.update_task_progress(task_id, f"Started, but progress bar not supported")    
+            time.sleep(2)
+            
+    monitor_thread = threading.Thread(target=monitor_library_progress, daemon=True)
+    monitor_thread.start()     
+    
     match taskEntity.language:
         case Language.PL: 
             if taskEntity.mode == TaskMode.FEW_SHOT:
@@ -77,6 +98,8 @@ def create_task(taskEntityDict: dict):
             result = taskEntity.result = TaskResult.FAILED
 
     logger.info('end task')
+    stop_monitoring = True
+    monitor_thread.join()
 
-
+    task_repository.update_task_progress(task_id, "100%")
     return result

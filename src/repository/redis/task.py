@@ -17,7 +17,14 @@ class TaskRepository:
         OUT: {'task_id': task_id, 'status': task_result.status, 'result': task_result.result} | None
         """
         task_result = AsyncResult(task_id)
+        progress = self.client.get(task_id)
+        progress_value = progress if progress else "Not started"
         if(task_result):
-            return {'task_id': task_id, 'status': task_result.status, 'result': task_result.result}
+            return {'task_id': task_id, 'status': task_result.status, 'result': task_result.result, 'progress': progress_value}
         else:
             None
+
+    def update_task_progress(self, task_id: str, progress: str) -> dict | None:
+        """
+        """
+        self.client.set(task_id, progress)
