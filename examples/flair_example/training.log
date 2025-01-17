@@ -1,0 +1,142 @@
+2025-01-17 04:22:37,380 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,382 Model: "TextClassifier(
+  (embeddings): DocumentLSTMEmbeddings(
+    (embeddings): StackedEmbeddings(
+      (list_embedding_0): WordEmbeddings(
+        'glove'
+        (embedding): Embedding(400001, 100)
+      )
+      (list_embedding_1): FlairEmbeddings(
+        (lm): LanguageModel(
+          (drop): Dropout(p=0.25, inplace=False)
+          (encoder): Embedding(275, 100)
+          (rnn): LSTM(100, 1024)
+        )
+      )
+      (list_embedding_2): FlairEmbeddings(
+        (lm): LanguageModel(
+          (drop): Dropout(p=0.25, inplace=False)
+          (encoder): Embedding(275, 100)
+          (rnn): LSTM(100, 1024)
+        )
+      )
+    )
+    (word_reprojection_map): Linear(in_features=2148, out_features=256, bias=True)
+    (rnn): GRU(256, 512)
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+  (decoder): Linear(in_features=512, out_features=8, bias=True)
+  (dropout): Dropout(p=0.0, inplace=False)
+  (locked_dropout): LockedDropout(p=0.0)
+  (word_dropout): WordDropout(p=0.0)
+  (loss_function): CrossEntropyLoss()
+  (weights): None
+  (weight_tensor) None
+)"
+2025-01-17 04:22:37,384 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,386 Corpus: 1 train + 1 dev + 1 test sentences
+2025-01-17 04:22:37,386 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,387 Train:  1 sentences
+2025-01-17 04:22:37,387         (train_with_dev=False, train_with_test=False)
+2025-01-17 04:22:37,387 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,387 Training Params:
+2025-01-17 04:22:37,387  - learning_rate: "0.1" 
+2025-01-17 04:22:37,388  - mini_batch_size: "32"
+2025-01-17 04:22:37,388  - max_epochs: "10"
+2025-01-17 04:22:37,388  - shuffle: "True"
+2025-01-17 04:22:37,389 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,389 Plugins:
+2025-01-17 04:22:37,389  - AnnealOnPlateau | patience: '3', anneal_factor: '0.5', min_learning_rate: '0.0001'
+2025-01-17 04:22:37,389 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,389 Final evaluation on model from best epoch (best-model.pt)
+2025-01-17 04:22:37,390  - metric: "('micro avg', 'f1-score')"
+2025-01-17 04:22:37,390 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,390 Computation:
+2025-01-17 04:22:37,390  - compute on device: cpu
+2025-01-17 04:22:37,390  - embedding storage: cpu
+2025-01-17 04:22:37,390 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,391 Model training base path: "."
+2025-01-17 04:22:37,391 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:37,391 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:53,480 epoch 1 - iter 1/1 - loss 2.14837956 - time (sec): 16.09 - samples/sec: 0.06 - lr: 0.100000 - momentum: 0.000000
+2025-01-17 04:22:53,481 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:53,481 EPOCH 1 done: loss 2.1484 - lr: 0.100000
+2025-01-17 04:22:55,100 DEV : loss 2.3077802658081055 - f1-score (micro avg)  0.0
+2025-01-17 04:22:55,102  - 0 epochs without improvement
+2025-01-17 04:22:55,105 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:59,260 epoch 2 - iter 1/1 - loss 0.87432939 - time (sec): 4.15 - samples/sec: 0.24 - lr: 0.100000 - momentum: 0.000000
+2025-01-17 04:22:59,261 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:22:59,261 EPOCH 2 done: loss 0.8743 - lr: 0.100000
+2025-01-17 04:22:59,325 DEV : loss 3.4958033561706543 - f1-score (micro avg)  0.0
+2025-01-17 04:22:59,326  - 1 epochs without improvement
+2025-01-17 04:22:59,327 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:03,243 epoch 3 - iter 1/1 - loss 0.05671759 - time (sec): 3.92 - samples/sec: 0.26 - lr: 0.100000 - momentum: 0.000000
+2025-01-17 04:23:03,244 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:03,244 EPOCH 3 done: loss 0.0567 - lr: 0.100000
+2025-01-17 04:23:03,307 DEV : loss 3.8730781078338623 - f1-score (micro avg)  0.0
+2025-01-17 04:23:03,309  - 2 epochs without improvement
+2025-01-17 04:23:03,309 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:07,135 epoch 4 - iter 1/1 - loss 0.04226527 - time (sec): 3.82 - samples/sec: 0.26 - lr: 0.100000 - momentum: 0.000000
+2025-01-17 04:23:07,136 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:07,136 EPOCH 4 done: loss 0.0423 - lr: 0.100000
+2025-01-17 04:23:07,221 DEV : loss 4.190295219421387 - f1-score (micro avg)  0.0
+2025-01-17 04:23:07,223  - 3 epochs without improvement
+2025-01-17 04:23:07,224 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:11,084 epoch 5 - iter 1/1 - loss 0.01982505 - time (sec): 3.86 - samples/sec: 0.26 - lr: 0.100000 - momentum: 0.000000
+2025-01-17 04:23:11,084 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:11,085 EPOCH 5 done: loss 0.0198 - lr: 0.100000
+2025-01-17 04:23:11,145 DEV : loss 4.365139961242676 - f1-score (micro avg)  0.0
+2025-01-17 04:23:11,148  - 4 epochs without improvement (above 'patience')-> annealing learning_rate to [0.05]
+2025-01-17 04:23:11,151 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:15,066 epoch 6 - iter 1/1 - loss 0.00987620 - time (sec): 3.91 - samples/sec: 0.26 - lr: 0.050000 - momentum: 0.000000
+2025-01-17 04:23:15,067 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:15,068 EPOCH 6 done: loss 0.0099 - lr: 0.050000
+2025-01-17 04:23:15,131 DEV : loss 4.410595417022705 - f1-score (micro avg)  0.0
+2025-01-17 04:23:15,132  - 1 epochs without improvement
+2025-01-17 04:23:15,135 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:19,244 epoch 7 - iter 1/1 - loss 0.02594577 - time (sec): 4.11 - samples/sec: 0.24 - lr: 0.050000 - momentum: 0.000000
+2025-01-17 04:23:19,245 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:19,246 EPOCH 7 done: loss 0.0259 - lr: 0.050000
+2025-01-17 04:23:19,332 DEV : loss 4.523416519165039 - f1-score (micro avg)  0.0
+2025-01-17 04:23:19,335  - 2 epochs without improvement
+2025-01-17 04:23:19,337 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:23,213 epoch 8 - iter 1/1 - loss 0.00654790 - time (sec): 3.88 - samples/sec: 0.26 - lr: 0.050000 - momentum: 0.000000
+2025-01-17 04:23:23,214 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:23,215 EPOCH 8 done: loss 0.0065 - lr: 0.050000
+2025-01-17 04:23:23,274 DEV : loss 4.556815147399902 - f1-score (micro avg)  0.0
+2025-01-17 04:23:23,276  - 3 epochs without improvement
+2025-01-17 04:23:23,277 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:27,063 epoch 9 - iter 1/1 - loss 0.02209289 - time (sec): 3.79 - samples/sec: 0.26 - lr: 0.050000 - momentum: 0.000000
+2025-01-17 04:23:27,064 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:27,064 EPOCH 9 done: loss 0.0221 - lr: 0.050000
+2025-01-17 04:23:27,124 DEV : loss 4.652636528015137 - f1-score (micro avg)  0.0
+2025-01-17 04:23:27,126  - 4 epochs without improvement (above 'patience')-> annealing learning_rate to [0.025]
+2025-01-17 04:23:27,127 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:30,944 epoch 10 - iter 1/1 - loss 0.01989073 - time (sec): 3.82 - samples/sec: 0.26 - lr: 0.025000 - momentum: 0.000000
+2025-01-17 04:23:30,945 ----------------------------------------------------------------------------------------------------
+2025-01-17 04:23:30,945 EPOCH 10 done: loss 0.0199 - lr: 0.025000
+2025-01-17 04:23:31,006 DEV : loss 4.701099395751953 - f1-score (micro avg)  0.0
+2025-01-17 04:23:31,008  - 1 epochs without improvement
+
+Traceback (most recent call last):
+  File "C:\Users\kubak\MGR_SEM2\IUI\IUI_project\examples\flair_example\train.py", line 57, in <module>
+    trainer.train('./', max_epochs=10)
+  File "C:\Users\kubak\MGR_SEM2\IUI\IUI_project\examples\flair_example\venv\Lib\site-packages\flair\trainers\trainer.py", line 226, in train
+    return self.train_custom(**local_variables, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kubak\MGR_SEM2\IUI\IUI_project\examples\flair_example\venv\Lib\site-packages\flair\trainers\trainer.py", line 824, in train_custom
+    self._save_model(base_path / "final-model.pt", checkpoint=save_optimizer_state)
+  File "C:\Users\kubak\MGR_SEM2\IUI\IUI_project\examples\flair_example\venv\Lib\site-packages\flair\trainers\trainer.py", line 991, in _save_model
+    self.model.save(model_file, checkpoint)
+  File "C:\Users\kubak\MGR_SEM2\IUI\IUI_project\examples\flair_example\venv\Lib\site-packages\flair\nn\model.py", line 122, in save
+    model_state = self._get_state_dict()
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kubak\MGR_SEM2\IUI\IUI_project\examples\flair_example\venv\Lib\site-packages\flair\models\text_classification_model.py", line 65, in _get_state_dict
+    "document_embeddings": self.embeddings.save_embeddings(use_state_dict=False),
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kubak\MGR_SEM2\IUI\IUI_project\examples\flair_example\venv\Lib\site-packages\flair\embeddings\base.py", line 101, in save_embeddings
+    params = self.to_params()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\kubak\MGR_SEM2\IUI\IUI_project\examples\flair_example\venv\Lib\site-packages\flair\embeddings\base.py", line 89, in to_params
+    raise NotImplementedError
+NotImplementedError
