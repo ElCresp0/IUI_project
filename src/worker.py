@@ -7,6 +7,7 @@ from celery import Celery, current_task
 from .entity.task import *
 from .repository.redis.task import TaskRepository
 from .service.stormtrooper import StormtrooperService
+from .service.bielik_api import BielikApiService
 from .service.model import ModelService
 from tqdm import tqdm
 import time
@@ -33,11 +34,11 @@ def create_task(taskEntityDict: dict):
 
     taskEntity = TaskEntity(**taskEntityDict)
     path = str
-    logger.info('start task...')
     logger.info(list(tqdm._instances))
     task_id = current_task.request.id
     task_repository.update_task_progress(task_id, "0%")
     stop_monitoring = False
+    logger.info(f'start task {task_id} ...')
     
     def monitor_library_progress():
         nonlocal stop_monitoring
@@ -58,7 +59,9 @@ def create_task(taskEntityDict: dict):
     
     match taskEntity.language:
         case Language.PL: 
-            if taskEntity.mode == TaskMode.FEW_SHOT:
+            if taskEntity.framework == Framework.BIELIK_API:
+                path = ""
+            elif taskEntity.mode == TaskMode.FEW_SHOT:
                 path = ModelService().get_sbert_base_cased_pl()
             elif taskEntity.mode == TaskMode.ZERO_SHOT:
                 path = ModelService().get_sbert_base_cased_pl()
@@ -77,12 +80,12 @@ def create_task(taskEntityDict: dict):
             logger.info(f"{taskEntity.language} is not {Language.PL} and not {Language.EN}")
             result = taskEntity.result = TaskResult.FAILED
 
-    stormtrooperService = StormtrooperService(path)
 
     # execute the task
     match taskEntity.framework:
         case Framework.STORMTROOPER:
             logger.info("framework: stormtrooper")
+            stormtrooperService = StormtrooperService(path)
             if taskEntity.mode == TaskMode.FEW_SHOT:
                 logger.info("started few shot")
                 result = stormtrooperService.few_shot_classification(taskEntity.args)
@@ -94,8 +97,21 @@ def create_task(taskEntityDict: dict):
             else:
                 logger.info(f"{taskEntity.framework}: unknown mode")
                 result = taskEntity.result = TaskResult.FAILED
+        case Framework.BIELIK_API:
+            bielikApiService = BielikApiService()
+            if taskEntity.mode == TaskMode.FEW_SHOT:
+                logger.info("started few shot")
+                result = bielikApiService.few_shot_classification(taskEntity.args)
+                taskEntity.result = TaskResult.SUCCEED #to chyba można usunac
+            elif taskEntity.mode == TaskMode.ZERO_SHOT:
+                logger.info("started zero shot")
+                result = bielikApiService.zero_shot_classification(taskEntity.args)
+                taskEntity.result = TaskResult.SUCCEED #to chyba można usunac
+            else:
+                logger.info(f"{taskEntity.framework}: unknown mode")
+                result = taskEntity.result = TaskResult.FAILED
         case _:
-            logger.info(f"{taskEntity.framework} != {Framework.STORMTROOPER}")
+            logger.info(f"{taskEntity.framework}: not supported framework")
             result = taskEntity.result = TaskResult.FAILED
 
     logger.info('end task')
