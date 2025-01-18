@@ -44,7 +44,7 @@ def create_task(taskEntityDict: dict):
         nonlocal stop_monitoring
         nonlocal task_id
         nonlocal taskEntity
-        while taskEntity.framework == Framework.STORMTROOPER and not stop_monitoring:
+        while (taskEntity.framework == Framework.STORMTROOPER or taskEntity.framework == Framework.BIELIK_API) and not stop_monitoring:
             active_bars = list(tqdm._instances)
             for bar in active_bars:
                 if bar.total:
