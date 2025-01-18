@@ -254,20 +254,3 @@ async def test_few_shot(framework: str,  language: str, request: FewShotRequest)
     logging.info(f"{__name__} :: task_id: {task_id}")
     return {'taskId': str(task_id)}
 
-# @router.put(
-#     '/',
-#     summary='Greet by Name',
-#     description='Returns a greeting message with the provided name.',
-#     response_model=HelloResponse,
-# )
-# def hello_name(name: str):
-#     """Greet the user by their name.
-
-#     This endpoint accepts a query parameter `name` and returns a JSON object with a greeting message.
-
-#     - **name**: The name of the person to greet.
-
-#     Example response:
-#     - **Hello**: The name provided in the input.
-#     """
-#     return {'Hello': name}

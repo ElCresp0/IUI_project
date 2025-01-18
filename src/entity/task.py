@@ -26,12 +26,12 @@ def map_to_enum(language: str, framework: str):
         framework_enum = Framework(framework)
 
         if framework_enum == Framework.BIELIK_API and language_enum != Language.PL:
-            raise ValueError("Bielik wspiera tylko język PL")
+            raise ValueError("Bielik supports only PL language")
 
         return language_enum, framework_enum
 
     except ValueError as e:
-        raise ValueError(f"Zły input: {e}")
+        raise ValueError(f"Wrong input: {e}")
 
 
 
