@@ -4,12 +4,18 @@ from stormtrooper import Trooper
 from .framework import Framework
 import pandas as pd
 import numpy as np
+from billiard.process import current_process
+import torch
 
 class StormtrooperService(Framework):
     def __init__(self, path: str):
         super().__init__()
-        logging.info("loading the model")         
-        self.model = Trooper(path)
+        logging.info("loading the model")
+        worker_index = current_process().index
+        if torch.cuda.is_available() and torch.cuda.device_count() > worker_index:
+            self.model = Trooper(path, device="cuda:" + str(worker_index))
+        else:
+            self.model = Trooper(path, device="cpu")
 
     def zero_shot_classification(self, args: dict):
         """

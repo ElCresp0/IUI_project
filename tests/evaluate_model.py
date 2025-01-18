@@ -83,7 +83,6 @@ def evaluate_zero_shot(
     result = []
     idx = 0
 
-    xd = 0
     while idx < len(sentences_val) or active_tasks:
         # Adding new tasks to the queue
         while len(active_tasks) < max_tasks and idx < len(sentences_val):
@@ -110,7 +109,6 @@ def evaluate_zero_shot(
                     for true_category, predicted_category in zip(task["true_categories"], result_batch):
                         result.append({"true": true_category, "predicted": predicted_category})
                     completed_tasks.append(task)
-                    xd = 1
                 elif response["status"] == "PENDING":
                     pass
                     # print(f"Task {task['task_id']} is still processing.")
@@ -122,8 +120,6 @@ def evaluate_zero_shot(
 
         # Waiting before the next status check
         time.sleep(CHECK_INTERVAL)
-        if xd == 1:
-            break
 
     # Calculating metrics
     true_labels = [item["true"] for item in result]
