@@ -72,4 +72,5 @@ if __name__ == "__main__":
         if status["status"] == "SUCCESS":
             print(get_task_result(task_id))
             break
-        
+    
+    
