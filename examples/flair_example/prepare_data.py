@@ -25,6 +25,9 @@ test, dev = train_test_split(test, test_size=0.5)
 data_dir = Path("data").absolute()
 if not data_dir.exists():
     data_dir.mkdir()
+data_dir = data_dir.joinpath("pl")
+if not data_dir.exists():
+    data_dir.mkdir()
 
 for split, split_name in [(train, "train"),(test, "test"),(dev, "dev")]:
-    split.to_csv(f'data/pl/{split_name}.csv', sep='\t', index = False, header = False)
+    split.to_csv(f'{data_dir}/{split_name}.csv', sep='\t', index = False, header = False)

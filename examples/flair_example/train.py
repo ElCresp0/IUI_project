@@ -25,4 +25,5 @@ tarsClassifier = TARSClassifier(model, label_dictionary=label_dictionary, label_
 
 # train the model (it's saved automatically)
 trainer = ModelTrainer(tarsClassifier, corpus)
+trainer._save_model("base-model.pt")
 trainer.train('./', max_epochs=64)
