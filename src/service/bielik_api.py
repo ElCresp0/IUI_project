@@ -1,12 +1,18 @@
 import logging
+
 import requests
-from requests.adapters import HTTPAdapter, Retry
 import tqdm
+from requests.adapters import HTTPAdapter, Retry
 
 from .framework import Framework
 
 
 class BielikApiService(Framework):
+    """This class maps classification tasks to Bielik API calls
+
+    Use it to execute zero_shot and few_shot text classification
+    """
+
     def __init__(self):
         super().__init__()
         login = ''
@@ -28,6 +34,11 @@ class BielikApiService(Framework):
         self.session.mount("https://", HTTPAdapter(max_retries=retries))
 
     def zero_shot_classification(self, args: dict):
+        """Run zero-shot classification using this framework
+
+        input: args:dict like {"text": text, "label": label}
+        ^label should be a list of labels
+        """
         def one_text_classification(text, labels):
             labels_string = ', '.join(labels)
             prompt = (
@@ -45,9 +56,14 @@ class BielikApiService(Framework):
         return results
 
     def few_shot_classification(self, args: dict):
+        """Run few-shot classification using this framework
+
+        input: args:dict like {"text": text, "examples": examples}
+        """
+
         def one_text_classification(text, examples):
             examples_text = '\n'.join(
-                [f'Przykład: {t}\nKategoria: {l}' for t, l in zip(
+                [f'Przykład: {text}\nKategoria: {label}' for text, label in zip(
                     examples['text'], examples['label'], strict=False)]
             )
 

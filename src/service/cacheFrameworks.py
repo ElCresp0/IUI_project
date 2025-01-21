@@ -1,7 +1,5 @@
-from stormtrooper.set_fit import SetFitClassifier
-
 from model import ModelService
-
+from stormtrooper.set_fit import SetFitClassifier
 
 # TODO:
 # tu i/lub w Dockerflie zmienić tak żeby TYLKO kontener worker (celery) ściągał model
