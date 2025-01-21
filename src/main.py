@@ -11,10 +11,10 @@ from .routers import (
 
 # TODO: set LOG_LEVEL in Dockerfile/docker-compose
 # TODO: make it work: https://github.com/tiangolo/uvicorn-gunicorn-fastapi-docker/issues/19#issuecomment-606672830
-os.environ["LOG_LEVEL"] = "DEBUG"
+os.environ['LOG_LEVEL'] = 'DEBUG'
 gunicorn_logger = logging.getLogger('gunicorn.error')
 logger.handlers = gunicorn_logger.handlers
-if __name__ != "main":
+if __name__ != 'main':
     logger.setLevel(gunicorn_logger.level)
 else:
     logger.setLevel(logging.DEBUG)
