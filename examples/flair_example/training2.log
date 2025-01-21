@@ -1,0 +1,111 @@
+2025-01-18 02:40:15,784 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,794 Model: "TARSClassifier(
+  (tars_model): TextClassifier(
+    (embeddings): TransformerDocumentEmbeddings(
+      (model): BertModel(
+        (embeddings): BertEmbeddings(
+          (word_embeddings): Embedding(30523, 768, padding_idx=0)
+          (position_embeddings): Embedding(512, 768)
+          (token_type_embeddings): Embedding(2, 768)
+          (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (encoder): BertEncoder(
+          (layer): ModuleList(
+            (0-11): 12 x BertLayer(
+              (attention): BertAttention(
+                (self): BertSdpaSelfAttention(
+                  (query): Linear(in_features=768, out_features=768, bias=True)
+                  (key): Linear(in_features=768, out_features=768, bias=True)
+                  (value): Linear(in_features=768, out_features=768, bias=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+                (output): BertSelfOutput(
+                  (dense): Linear(in_features=768, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (intermediate): BertIntermediate(
+                (dense): Linear(in_features=768, out_features=3072, bias=True)
+                (intermediate_act_fn): GELUActivation()
+              )
+              (output): BertOutput(
+                (dense): Linear(in_features=3072, out_features=768, bias=True)
+                (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                (dropout): Dropout(p=0.1, inplace=False)
+              )
+            )
+          )
+        )
+        (pooler): BertPooler(
+          (dense): Linear(in_features=768, out_features=768, bias=True)
+          (activation): Tanh()
+        )
+      )
+    )
+    (decoder): Linear(in_features=768, out_features=2, bias=True)
+    (dropout): Dropout(p=0.0, inplace=False)
+    (locked_dropout): LockedDropout(p=0.0)
+    (word_dropout): WordDropout(p=0.0)
+    (loss_function): CrossEntropyLoss()
+  )
+  (_current_task): SentenceTransformer(
+    (0): Transformer({'max_seq_length': 512, 'do_lower_case': False}) with Transformer model: BertModel 
+    (1): Pooling({'word_embedding_dimension': 768, 'pooling_mode_cls_token': False, 'pooling_mode_mean_tokens': True, 'pooling_mode_max_tokens': False, 'pooling_mode_mean_sqrt_len_tokens': False, 'pooling_mode_weightedmean_tokens': False, 'pooling_mode_lasttoken': False, 'include_prompt': True})
+  )
+)"
+2025-01-18 02:40:15,794 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,794 Corpus: 6 train + 0 dev + 0 test sentences
+2025-01-18 02:40:15,794 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,794 Train:  6 sentences
+2025-01-18 02:40:15,794         (train_with_dev=False, train_with_test=False)
+2025-01-18 02:40:15,794 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,794 Training Params:
+2025-01-18 02:40:15,794  - learning_rate: "0.1" 
+2025-01-18 02:40:15,794  - mini_batch_size: "32"
+2025-01-18 02:40:15,794  - max_epochs: "5"
+2025-01-18 02:40:15,794  - shuffle: "True"
+2025-01-18 02:40:15,794 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,794 Plugins:
+2025-01-18 02:40:15,794  - AnnealOnPlateau | patience: '3', anneal_factor: '0.5', min_learning_rate: '0.0001'
+2025-01-18 02:40:15,794 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,794 Final evaluation on model from best epoch (best-model.pt)
+2025-01-18 02:40:15,794  - metric: "('micro avg', 'f1-score')"
+2025-01-18 02:40:15,794 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,794 Computation:
+2025-01-18 02:40:15,794  - compute on device: cpu
+2025-01-18 02:40:15,800  - embedding storage: cpu
+2025-01-18 02:40:15,800 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,800 Model training base path: "."
+2025-01-18 02:40:15,800 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:15,800 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:21,387 epoch 1 - iter 1/1 - loss 0.73093939 - time (sec): 4.58 - samples/sec: 3.93 - lr: 0.100000 - momentum: 0.000000
+2025-01-18 02:40:21,389 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:21,389 EPOCH 1 done: loss 0.7309 - lr: 0.100000
+2025-01-18 02:40:21,390  - 0 epochs without improvement
+2025-01-18 02:40:21,390 saving best model
+2025-01-18 02:40:24,456 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:28,688 epoch 2 - iter 1/1 - loss 2.59278954 - time (sec): 4.08 - samples/sec: 4.41 - lr: 0.100000 - momentum: 0.000000
+2025-01-18 02:40:28,688 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:28,688 EPOCH 2 done: loss 2.5928 - lr: 0.100000
+2025-01-18 02:40:28,690  - 0 epochs without improvement
+2025-01-18 02:40:28,692 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:33,405 epoch 3 - iter 1/1 - loss 0.68256378 - time (sec): 4.63 - samples/sec: 3.88 - lr: 0.100000 - momentum: 0.000000
+2025-01-18 02:40:33,407 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:33,407 EPOCH 3 done: loss 0.6826 - lr: 0.100000
+2025-01-18 02:40:33,407  - 1 epochs without improvement
+2025-01-18 02:40:33,407 saving best model
+2025-01-18 02:40:37,424 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:42,474 epoch 4 - iter 1/1 - loss 3.30675761 - time (sec): 4.97 - samples/sec: 3.62 - lr: 0.100000 - momentum: 0.000000
+2025-01-18 02:40:42,475 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:42,475 EPOCH 4 done: loss 3.3068 - lr: 0.100000
+2025-01-18 02:40:42,477  - 0 epochs without improvement
+2025-01-18 02:40:42,479 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:47,598 epoch 5 - iter 1/1 - loss 0.64490260 - time (sec): 5.04 - samples/sec: 3.57 - lr: 0.100000 - momentum: 0.000000
+2025-01-18 02:40:47,598 ----------------------------------------------------------------------------------------------------
+2025-01-18 02:40:47,598 EPOCH 5 done: loss 0.6449 - lr: 0.100000
+2025-01-18 02:40:47,602  - 1 epochs without improvement
+2025-01-18 02:40:47,603 saving best model
+2025-01-18 02:40:51,091 Loading model from best epoch ...
+2025-01-18 02:40:57,905 Test data not provided setting final score to 0
