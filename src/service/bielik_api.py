@@ -1,3 +1,4 @@
+import logging
 import requests
 from requests.adapters import HTTPAdapter, Retry
 import tqdm
@@ -82,6 +83,10 @@ class BielikApiService(Framework):
             timeout=10,
             ** self.auth_kwargs,
         )
+
+        if response.status_code > 500:
+            logging.warning(f'bielik response {response.status_code}:\n'
+                            f'prompt: {prompt}')
         response.raise_for_status()
         response_json = response.json()
         return response_json.get('response', '')
