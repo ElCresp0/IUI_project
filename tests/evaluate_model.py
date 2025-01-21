@@ -1,6 +1,7 @@
 import time
 import random
 from sklearn.metrics import accuracy_score, f1_score
+from tqdm import tqdm
 from utilities import *
 
 
@@ -19,6 +20,9 @@ def evaluate_few_shot(
     active_tasks = []
     result = []
     idx = 0
+    
+    total_batches = (len(sentences_val) + batch_size - 1) // batch_size
+    pbar = tqdm(total=total_batches, desc="Processing Few-Shot Evaluation")
 
     while idx < len(sentences_val) or active_tasks:
         # Adding new tasks to the queue
@@ -50,8 +54,10 @@ def evaluate_few_shot(
                     for true_category, predicted_category in zip(task["true_categories"], result_batch):
                         result.append({"true": true_category, "predicted": predicted_category})
                     completed_tasks.append(task)
+                    pbar.update(1)
                 elif response["status"] == "PENDING":
-                    print(f"Task {task['task_id']} is still processing.")
+                    pass
+                    # print(f"Task {task['task_id']} is still processing.")
             except Exception as e:
                 print(f"Error checking status for task {task['task_id']}: {e}")
 
@@ -61,6 +67,8 @@ def evaluate_few_shot(
         # Waiting before the next status check
         time.sleep(CHECK_INTERVAL)
 
+    pbar.close()
+    
     # Calculating metrics
     true_labels = [item["true"] for item in result]
     predicted_labels = [item["predicted"] for item in result]
@@ -82,6 +90,9 @@ def evaluate_zero_shot(
     active_tasks = []
     result = []
     idx = 0
+
+    total_batches = (len(sentences_val) + batch_size - 1) // batch_size
+    pbar = tqdm(total=total_batches, desc="Processing Zero-Shot Evaluation")
 
     while idx < len(sentences_val) or active_tasks:
         # Adding new tasks to the queue
