@@ -79,6 +79,7 @@ class BielikApiService(Framework):
             json=data,
             headers={'Accept': 'application/json',
                      'Content-Type': 'application/json'},
+            timeout=10,
             ** self.auth_kwargs,
         )
         response.raise_for_status()
