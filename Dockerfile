@@ -32,13 +32,16 @@ COPY requirements-frameworks.txt .
 RUN  pip install --no-cache-dir --upgrade -r requirements-frameworks.txt
 
 # Cache frameworks for quicker development
-COPY src/service/model.py tmp/model.py
-COPY src/service/cacheFrameworks.py tmp/cacheFrameworks.py
-RUN python3 tmp/cacheFrameworks.py
+# COPY src/service/model.py tmp/model.py
+# COPY src/service/cacheFrameworks.py tmp/cacheFrameworks.py
+# RUN python3 tmp/cacheFrameworks.py
 # ABOVE HAS BEEN FOR DEVELOPMENT PURPOSES
 
 # Copy application code
 COPY src src
+
+# Copy config
+COPY config config
 
 # don't buffer Python output
 ENV PYTHONUNBUFFERED=1

@@ -1,13 +1,15 @@
-## Uruchomienie api:
+## Uruchomienie api
+
 * Uruchamianie API na docker Z Redis i Celery:
 * aktywujemy venv z zainstalowanymi bibliotekami i wpisujemy to:
+
 ```bash
 docker-compose up --build
 ```
 
-* Api dostępne tutaj: http://localhost:8080/docs
-* Podgląd zadań Celery tutaj: http://localhost:5556/
-
+* Api dostępne tutaj: <http://localhost:8080/docs>
+* Podgląd zadań Celery tutaj: <http://localhost:5556/>
+* Aby uzyskać dostęp do bielika należy uzupełnić ```config/config.ini``` na postawie ```config/default.ini```
 
 # Intelligent Text Processing Service - Project Template
 
@@ -22,9 +24,11 @@ docker-compose up --build
 2. **Install `pip`**
     * `pip` is the package manager for Python. It allows you to install, update, and manage third-party Python packages.
     * If you're using Python 3.12, `pip` should already be included. Verify the installation by running:
+
       ```bash
       pip --version
       ```
+
     * If `pip` is not installed or needs to be updated, follow the official installation
       guide: [pip Installation Guide](https://pip.pypa.io/en/stable/installation/).
 
@@ -32,19 +36,25 @@ docker-compose up --build
     * A virtual environment (`venv`) isolates the dependencies of your project, ensuring that packages installed for
       this project don’t interfere with other projects or the global Python installation.
     * To create a virtual environment in your project directory, run the following command:
+
       ```bash
       python -m venv .venv
       ```
+
     * This creates a `.venv` directory that contains a separate Python interpreter and its own package directories.
     * You need to **activate the virtual environment** every time you work on the project:
         * On **Linux/macOS**, use:
+
           ```bash
           source .venv/bin/activate
           ```
+
         * On **Windows**, use:
+
           ```powershell
           .venv\Scripts\Activate.ps1
           ```
+
     * Once activated, your terminal should show a prefix like `(.venv)`, indicating that you are inside the virtual
       environment.
 
@@ -52,21 +62,25 @@ docker-compose up --build
     * After activating the virtual environment, you need to install the dependencies required for the project. These
       dependencies are listed in the `requirements.txt` file.
     * Run the following command to install them:
+
       ```bash
       # remember to activate venv first!
       pip install -r requirements-dev.txt
       ```
+
     * This ensures that all necessary libraries are installed in your virtual environment and are isolated from the
       system-wide Python installation.
 
 5. Build and test the project
-    * install Docker from the official website (https://www.docker.com/get-started/)
+    * install Docker from the official website (<https://www.docker.com/get-started/>)
     * run `build.sh` (Linux) or `build.ps1` (Windows) to build the project
     * start the Docker Container by running:
+
       ```bash
       docker run --rm -p 8080:8080 renameme:latest
       ```
-    * visit http://localhost:8080/docs You should see the Swagger UI and be able to send a request to the service REST
+
+    * visit <http://localhost:8080/docs> You should see the Swagger UI and be able to send a request to the service REST
       API
 
 6. Rename all places and variables that use to service name:
@@ -110,7 +124,7 @@ Ruff is also executed during in the `build.sh` and `build.ps1`
 
 ### Dependency management
 
-The project uses `pip-tools` (https://github.com/jazzband/pip-tools) to manage both production and development
+The project uses `pip-tools` (<https://github.com/jazzband/pip-tools>) to manage both production and development
 dependencies effectively.
 `pip-tools` is a set of tools that helps you manage Python dependencies by resolving and locking down specific versions,
 ensuring consistency across environments. It automatically resolves and pins all transitive dependencies, preventing
@@ -133,6 +147,7 @@ run following command to  generate `requirements.txt` and `requirements-dev.txt`
 pip-compile requirements.in
 pip-compile requirements-dev.in
 ```
+
 This will resolve and pin all dependencies, generating `requirements.txt` and `requirements-dev.txt` files
 
 To install dependencies on your computer run:
@@ -149,9 +164,9 @@ pip install -r requirements-dev.txt
 │ build.ps1 - PowerShell script for building the project  
 │ build.sh - Bash script for building the project  
 │ Dockerfile  
-│ pyproject.toml - Defines project metadata, configuration for tools (such as Ruff), etc   
+│ pyproject.toml - Defines project metadata, configuration for tools (such as Ruff), etc
 │ readme.md  
-│ requirements-dev.in - Lists the development dependencies (including production ones via -r requirements.in).   
+│ requirements-dev.in - Lists the development dependencies (including production ones via -r requirements.in).
 │ requirements-dev.txt - The compiled and pinned versions of all development dependencies.  
 │ requirements.in - Lists the main dependencies required for the project in production.  
 │ requirements.txt - The compiled and pinned versions of all production dependencies.  
@@ -174,4 +189,4 @@ For more details check:
 * `main.py`
 * `routers/example.py`
 
-Learn more: https://fastapi.tiangolo.com/tutorial/
+Learn more: <https://fastapi.tiangolo.com/tutorial/>

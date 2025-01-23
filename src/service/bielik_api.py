@@ -1,3 +1,4 @@
+import configparser
 import logging
 
 import requests
@@ -5,6 +6,9 @@ import tqdm
 from requests.adapters import HTTPAdapter, Retry
 
 from .framework import Framework
+
+
+NO_RESPONSE = ''
 
 
 class BielikApiService(Framework):
@@ -15,9 +19,17 @@ class BielikApiService(Framework):
 
     def __init__(self):
         super().__init__()
-        login = ''
-        password = ''
+        # login = ''
+        # password = ''
+        config = configparser.ConfigParser()
+        config.read(['config/default.ini', 'config/config.ini'])
+
+        login = config["bielik"]["login"]
+        password = config["bielik"]["password"]
         auth = (login, password)
+        if not any(auth):
+            logging.warning(
+                "No login and password provided in config/config.ini")
 
         self.base_url = 'https://153.19.239.239/api/llm/prompt/chat'
         self.auth_kwargs = {
@@ -32,6 +44,9 @@ class BielikApiService(Framework):
         retries = Retry(total=3, status_forcelist=[503, 504])
         self.session.mount("http://", HTTPAdapter(max_retries=retries))
         self.session.mount("https://", HTTPAdapter(max_retries=retries))
+
+    def _maybe_results(self, results: list):
+        return results if any(results) else NO_RESPONSE
 
     def zero_shot_classification(self, args: dict):
         """Run zero-shot classification using this framework
@@ -91,18 +106,22 @@ class BielikApiService(Framework):
             'temperature': self.temperature,
         }
 
-        response = self.session.put(
-            self.base_url,
-            json=data,
-            headers={'Accept': 'application/json',
-                     'Content-Type': 'application/json'},
-            timeout=10,
-            ** self.auth_kwargs,
-        )
+        try:
+            response = self.session.put(
+                self.base_url,
+                json=data,
+                headers={'Accept': 'application/json',
+                         'Content-Type': 'application/json'},
+                timeout=10,
+                ** self.auth_kwargs,
+            )
+            response.raise_for_status()
+        except:
+            return NO_RESPONSE
 
         if response.status_code > 500:
             logging.warning(f'bielik response {response.status_code}:\n'
                             f'prompt: {prompt}')
-        response.raise_for_status()
+
         response_json = response.json()
-        return response_json.get('response', '')
+        return response_json.get('response', NO_RESPONSE)
