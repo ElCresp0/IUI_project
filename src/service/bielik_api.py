@@ -116,8 +116,10 @@ class BielikApiService(Framework):
                 ** self.auth_kwargs,
             )
             response.raise_for_status()
-        except:
-            return NO_RESPONSE
+        except Exception as e:
+            raise Exception(
+                f"Response {response.status_code}. Prompt: {prompt}") from e
+            # return NO_RESPONSE
 
         if response.status_code > 500:
             logging.warning(f'bielik response {response.status_code}:\n'
