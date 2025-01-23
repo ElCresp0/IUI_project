@@ -68,7 +68,7 @@ class BielikApiService(Framework):
         for text in tqdm.tqdm(args['text'], desc='Text processing'):
             result = one_text_classification(text, args['label'])
             results.append(result)
-        return results
+        return self._maybe_results(results)
 
     def few_shot_classification(self, args: dict):
         """Run few-shot classification using this framework
@@ -97,7 +97,7 @@ class BielikApiService(Framework):
         for text in tqdm.tqdm(args['text'], desc='Text processing'):
             result = one_text_classification(text, args['examples'])
             results.append(result)
-        return results
+        return self._maybe_results(results)
 
     def _request_api(self, prompt: str):
         data = {

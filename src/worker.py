@@ -2,13 +2,14 @@ import os
 import threading
 import time
 
+from celery import Celery, current_task, states
 import celery.app.log as log
-from celery import Celery, current_task
+from celery.exceptions import Ignore
 from tqdm import tqdm
 
 from .entity.task import Framework, Language, TaskEntity, TaskMode, TaskResult
 from .repository.redis.task import TaskRepository
-from .service.bielik_api import BielikApiService
+from .service.bielik_api import NO_RESPONSE, BielikApiService
 from .service.model import ModelService
 from .service.stormtrooper import StormtrooperService
 
@@ -109,15 +110,14 @@ def create_task(taskEntityDict: dict):
                 logger.info('started few shot')
                 result = bielikApiService.few_shot_classification(
                     taskEntity.args)
-                taskEntity.result = TaskResult.SUCCEED  # to chyba można usunac
             elif taskEntity.mode == TaskMode.ZERO_SHOT:
                 logger.info('started zero shot')
                 result = bielikApiService.zero_shot_classification(
                     taskEntity.args)
-                taskEntity.result = TaskResult.SUCCEED  # to chyba można usunac
             else:
                 logger.info(f'{taskEntity.framework}: unknown mode')
-                result = taskEntity.result = TaskResult.FAILED
+                result = NO_RESPONSE
+
         case _:
             logger.info(f'{taskEntity.framework}: not supported framework')
             result = taskEntity.result = TaskResult.FAILED
