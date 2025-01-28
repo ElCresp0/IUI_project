@@ -1,5 +1,6 @@
 import logging
 
+import gc
 import pandas as pd
 import torch
 from billiard.process import current_process
@@ -22,6 +23,17 @@ class StormtrooperService(Framework):
             self.model = Trooper(path, device='cuda:' + str(worker_index))
         else:
             self.model = Trooper(path, device='cpu')
+        
+    def clean_mem(self):
+        del self.model
+        torch._C._cuda_clearCublasWorkspaces()
+        torch._dynamo.reset()
+        gc.collect()
+        torch.cuda.empty_cache()
+        torch.cuda.reset_max_memory_allocated()
+        torch.cuda.reset_peak_memory_stats()
+        torch.cuda.reset_accumulated_memory_stats()
+        torch.cuda.synchronize()
 
     def zero_shot_classification(self, args: dict):
         """Performs zero shot text classification
@@ -45,6 +57,8 @@ class StormtrooperService(Framework):
         y_pred = self.model.predict(df['text'])
 
         logging.warning(f'framework y_pred: {y_pred}')
+        
+        self.clean_mem()
 
         return y_pred.tolist()
 
@@ -77,5 +91,7 @@ class StormtrooperService(Framework):
         y_pred = self.model.predict(df['text'])
 
         logging.warning(f'framework y_pred: {y_pred}')
+        
+        self.clean_mem()
 
         return y_pred.tolist()

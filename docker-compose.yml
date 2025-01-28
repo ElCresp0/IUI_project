@@ -15,10 +15,19 @@ services:
 
   worker:
     build: .
-    command: celery -A src.worker.celery worker --pool=prefork --concurrency=4
+    command: celery -A src.worker.celery worker --pool=prefork --concurrency=1
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - NVIDIA_VISIBLE_DEVICES=1
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     depends_on:
       - web
       - redis
@@ -37,4 +46,4 @@ services:
     depends_on:
       - web
       - redis
-      - worker
+    runtime: nvidia
