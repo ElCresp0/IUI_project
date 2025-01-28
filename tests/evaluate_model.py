@@ -118,7 +118,7 @@ def evaluate_zero_shot(
     result = []
     idx = 0
     
-    unique_batch_categories = list(set(batch_categories))
+    unique_batch_categories = list(set(categories_val))
 
     total_batches = (len(sentences_val) + batch_size - 1) // batch_size
     pbar = tqdm(total=total_batches, desc="Processing Zero-Shot Evaluation")
